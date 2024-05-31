@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "ai-cheater",
-    "slug": "ai-cheater",
+    "name": "react-native-app-demo",
+    "slug": "react-native-app-demo",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "ai-cheater",
+    "scheme": "react-native-app-demo",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",

@@ -3,11 +3,13 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const expressConfig = require("./config/expressConfig");
-const dbConnect = require("./config/dbConfig");
+const mongoose = require("mongoose");
 
 const { PORT } = require("./constants");
 const routes = require("./router");
+require("dotenv").config()
 
+const uri = process.env.ATLAS_URI;
 // Local variables
 const app = express();
 
@@ -19,9 +21,12 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-dbConnect()
-  .then(() => console.log("Successfully connected to the DB!"))
-  .catch((err) => console.log(`Error while connecting in DB: ${err}`));
+mongoose.connect(uri,{
+  useNewUrlParser:true,
+  useUnifiedTopology:true,
+})
+.then(()=>console.log('Connected to MongoDB!'))
+.catch((error) =>console.log("MongoDB connection FAILED:", error.message));
 
 // Routing
 app.use(routes);

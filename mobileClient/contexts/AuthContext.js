@@ -8,20 +8,21 @@ export const AuthContext = createContext();
 export const AuthContextProvider = ({ children }) => {
 
   const [user, setUser] = useState(null);
-
+  const [isLoading,setIsLoading] = useState(false);
 
   const loadUser = async () => {
     try {
+      setIsLoading(true);
       const storedUser = await AsyncStorage.getItem('user');
-      if (storedUser) {
+      if (storedUser && !user) {
         setUser(JSON.parse(storedUser));
       }
     } catch (error) {
       console.error("Failed to load user", error);
     } 
-    // finally {
-    //   setLoading(false);
-    // }
+    finally {
+      setIsLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export const AuthContextProvider = ({ children }) => {
 
 
   return (
-    <AuthContext.Provider value={{ user,setUser}}>
+    <AuthContext.Provider value={{ user,setUser,isLoading,setUser}}>
       {children}
     </AuthContext.Provider>
     

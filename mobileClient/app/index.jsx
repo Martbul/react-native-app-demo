@@ -4,7 +4,12 @@ import { Redirect, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {images} from '../constants'
 import CustomButton from "../components/CustomButton";
+import { AuthContext } from "../contexts/AuthContext";
+import { useContext } from "react";
 export default function App() {
+   const{user,isLoading} = useContext(AuthContext);
+console.log('index',user);
+   if(!isLoading && user!== null ) return <Redirect href="/home"/>
    return (
       //safeaAreaView ensures that the content is visible on all different divices
       // and ensures that the content doesnt overlap with nav bar, status bar etc

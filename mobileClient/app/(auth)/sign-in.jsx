@@ -12,7 +12,7 @@ import { loginUser } from '../../services/userAuth'
 const SignIn = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [isSubmiting, setIsSubmiting] = useState(false);
-
+  const{user,isLoading,setUser} = useContext(AuthContext);
   const submit = async () => {
     if (!form.email || !form.password) {
       console.log("error");
@@ -25,6 +25,7 @@ const SignIn = () => {
       const result = await loginUser(form.email, form.password);
 
       console.log("result", result);
+      setUser(result);
       router.replace("/home");
     } catch (error) {
       Alert.alert("Error", error.message);

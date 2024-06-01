@@ -13,7 +13,7 @@ import { registerUser } from '../../services/userAuth'
 const SignUp = () => {
   const [form,setForm] = useState({username:"",email:"",password:""})
  const[isSubmiting, setIsSubmiting] = useState(false)
-
+ const{user,isLoading,setUser} = useContext(AuthContext);
   const submit = async () =>{
     
     if(!form.username || !form.email || !form.password){
@@ -27,6 +27,7 @@ const SignUp = () => {
         const result = await registerUser(form.username, form.email, form.password)
 
         console.log('result',result);
+        setUser(result)
         router.replace('/home')
       } catch (error) {
         Alert.alert("Error",error.message)

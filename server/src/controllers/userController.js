@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const userService = require("../services/userService");
-const profileService = require("../services/profileService");
+
 const jwtDecode = require("jwt-decode");
 const { extractErrorMsgs } = require("../utils/errorHandler");
 //const isStrongPassword = require("validator/lib/isStrongPassword");
@@ -8,68 +8,36 @@ const { extractErrorMsgs } = require("../utils/errorHandler");
 
 
 
+router.post('/signup', async (req, res) => {
 
-router.post("/singup", async (req, res) => {
   const { username, email, password } = req.body;
 
-
   try {
-    const decodedToken = await userService.singup({ username,email, password });
-   
-    res.cookie('test', decodedToken)
-   res.cookie("auth", decodedToken);
-  res.json(decodedToken)
-  
+    const decodedToken = await userService.singup({ username, email, password });
+
+
+    res.json(decodedToken)
   } catch (error) {
     const errorMessages = extractErrorMsgs(error);
-    console.log('err  '+ errorMessages);
+    console.log('err  ' + errorMessages);
     return errorMessages
-   
   }
-});
-
-
-router.post("/login", async (req, res) => {
-  
-  const { email, password } = req.body;
-  try {
-    const decodedToken = await userService.login(  email, password );
-
-   
-  
-    //res.cookie("auth", result, { httpOnly: true });
-    res.cookie('test', decodedToken)
-    res.cookie("auth", decodedToken);
-      res.json(decodedToken)
-    
-  } catch (error) {
-    const errorMessages = extractErrorMsgs(error);
-   return Error
-  }
-});
-
-
-
-
-router.post('/profile',async (req,res)=>{
-  const {email} = req.body
-  console.log(req.body);
-
-  try {
-      const profileData = await profileService.getProfileData(email)
-  res.json(profileData).status(200).end();
-  console.log('userData deliverd');
-  } catch (message) {
-      res.status(400).json({ message }); 
-  }
-   
 })
 
 
+router.post("/login", async (req, res) => {
 
+  const { email, password } = req.body;
 
-router.get("/logout", (req, res) => {
-  res.clearCookie("auth");
+  try {
+    const decodedToken = await userService.login(email, password);
+
+    res.json(decodedToken)
+
+  } catch (error) {
+    const errorMessages = extractErrorMsgs(error);
+    return Error
+  }
 });
 
 

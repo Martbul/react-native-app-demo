@@ -1,11 +1,21 @@
-import { View, Text, FlatList, Image } from 'react-native'
-import React from 'react'
+import { View, Text, FlatList, Image, RefreshControl } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {images} from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
 const Home = () => {
+  const [refreshing, setRefreshing] = useState(false)
+
+  //when a user pulls down the screen, it will call this function and fetch new videos(like on instagram)
+    const onRefresh = async() => {
+    setRefreshing(true)
+    //re call posts
+    setRefreshing(false)
+  }
+
+
   return (
     <SafeAreaView className="bg-primary h-full">
       {/*FlatList is used for rendering a list of elements */}
@@ -51,6 +61,8 @@ const Home = () => {
           subtitle="Be the first to upload a video" 
           />
         )}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}
+
           
      />
     </SafeAreaView>

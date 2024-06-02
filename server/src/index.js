@@ -1,7 +1,6 @@
-// Imports
 const express = require("express");
 const bodyParser = require("body-parser");
-
+const multer = require('multer');
 const expressConfig = require("./config/expressConfig");
 const mongoose = require("mongoose");
 
@@ -13,6 +12,9 @@ const uri = process.env.ATLAS_URI;
 // Local variables
 const app = express();
 
+
+
+const upload = multer({ dest: 'uploads/' })
 // Configs
 
 expressConfig(app);

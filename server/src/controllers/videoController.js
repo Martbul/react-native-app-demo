@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const videoService = require("../services/videoService");
 
+
+
+
 router.get('/getAllVideos', async (req, res) => {
   try {
     const allVideos = await videoService.getAllVideos();
@@ -43,8 +46,22 @@ router.post('/getAllUserVideos', async (req, res) => {
 const userEmail = req.body.userEmail
   try {
      const allUserVideos = await videoService.allUserVideos(userEmail);
-     //console.log("allUserVideos",allUserVideos);
      res.json(allUserVideos)
+  } catch (error) {
+    const errorMessages = extractErrorMsgs(error);
+    console.log('err  ' + errorMessages);
+    return errorMessages
+  }
+})
+
+
+router.post('/createVideo', async (req, res) => {
+const {title,video,thumbnail,prompt } = req.body.form
+console.log(title, video,thumbnail,prompt);
+  try {
+     const createdVideo = await videoService.createVideo(title, video,thumbnail,prompt);
+     console.log(createdVideo);
+     res.json(createdVideo)
   } catch (error) {
     const errorMessages = extractErrorMsgs(error);
     console.log('err  ' + errorMessages);

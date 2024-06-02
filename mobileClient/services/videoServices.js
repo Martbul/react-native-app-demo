@@ -53,3 +53,25 @@ export const getAllUserVideos = async(userEmail) => {
 
     return response
 }
+
+
+
+export const createVideo = async(form) => {
+    const response = await postRequest(
+        `${baseUrl}/videos/createVideo`,
+
+        JSON.stringify({form})
+    );
+
+    if (response.error) {
+        console.log('response', response);
+        throw new Error(response);
+    }
+   
+    console.log("new video",response);
+
+    return response
+}
+
+
+

@@ -10,28 +10,29 @@ const videoSchema = new mongoose.Schema({
    
   },
 
-  tumbnail: {
-    
-    type: String,
-    required: [true, "email is required"],
-    
+  tumbnail:  {
+    mimeType: String,
+    uri: String,
+    name: String,
+    size: Number
   },
-
   prompt: {
     type: String,
     required: [true, "password is required"],
   
   },
-  video: {
-    type: String,
-    required: [true, "password is required"],
-  
+  video:  {
+    mimeType: String,
+    uri: String,
+    name: String,
+    size: Number
   },
   creator: {
     type: String,
     required: [true, "password is required"],
   
   },
+  filePath: String
 
 },
 {

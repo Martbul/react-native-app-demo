@@ -32,4 +32,14 @@ exports.searchVideos = async (videoName) => {
   }
 
 };
+exports.allUserVideos = async (userEmail) => {
+
+  try {
+    const allUserVideos = await Video.find({ creator: userEmail });
+    return allUserVideos;
+  } catch (err) {
+    console.log('err: ' + err);
+  }
+
+};
 

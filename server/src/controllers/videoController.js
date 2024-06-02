@@ -28,12 +28,23 @@ router.get('/getLatestVideos', async (req, res) => {
 
 router.get('/serchVideos', async (req, res) => {
 const videoName = req.query.videoName
-console.log(videoName);
 
   try {
      const searchVideoResult = await videoService.searchVideos(videoName);
-     console.log(searchVideoResult);
      res.json(searchVideoResult)
+  } catch (error) {
+    const errorMessages = extractErrorMsgs(error);
+    console.log('err  ' + errorMessages);
+    return errorMessages
+  }
+})
+
+router.post('/getAllUserVideos', async (req, res) => {
+const userEmail = req.body.userEmail
+  try {
+     const allUserVideos = await videoService.allUserVideos(userEmail);
+     //console.log("allUserVideos",allUserVideos);
+     res.json(allUserVideos)
   } catch (error) {
     const errorMessages = extractErrorMsgs(error);
     console.log('err  ' + errorMessages);

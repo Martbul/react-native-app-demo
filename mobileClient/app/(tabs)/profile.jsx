@@ -9,17 +9,20 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { icons, images } from "../../constants";
 import { logoutUser } from "../../services/userAuth";
 import InfoBox from "../../components/InfoBox";
+import { router } from "expo-router";
 
 // [query].jsx is a dynamic route component in Next.js, which means it can receive query parameters.
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
 
-  const { data: posts, refetch } = useFetchVideos(() =>
+  const { data: posts} = useFetchVideos(() =>
     getAllUserVideos(user.email)
   );
-  const logout = () => {
-    logoutUser();
+  const logout = async() => {
+    await logoutUser();
     setUser(null);
+
+    router.replace('/sign-in')
   };
 
   return (
@@ -50,14 +53,14 @@ const Profile = () => {
             </View>
 
             <InfoBox
-                title={user.username}
+                title={user?.username}
                 containerStyles="mt-5"
                 titleStyles="text-lg "
               />
 
             <View className="mt-5 flex-row">
               <InfoBox
-                title={videos.length || 0}
+                title={posts.length || 0}
                 subtitle="Videos"
                 containerStyles="mr-10"
                 titleStyles="text-xl "

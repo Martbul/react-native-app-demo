@@ -22,5 +22,14 @@ exports.getLatestVideos = async () => {
   }
 
 };
+exports.searchVideos = async (videoName) => {
 
+  try {
+    const searchVideResults = await Video.find({ title: { $regex: videoName, $options: 'i' } });
+    return searchVideResults;
+  } catch (err) {
+    console.log('err: ' + err);
+  }
+
+};
 

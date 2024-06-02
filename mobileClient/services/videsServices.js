@@ -1,12 +1,9 @@
-import { baseUrl, postRequest,getRequest} from "../utils/request";
-
-
-
+import { baseUrl, postRequest, getRequest } from "../utils/request";
 export const getAllVideos = async () => {
- console.log('getAllVideos');
+    
     const response = await getRequest(
         `${baseUrl}/videos/getAllVideos`,
-      
+
     );
 
 
@@ -16,6 +13,23 @@ export const getAllVideos = async () => {
     }
     console.log('response', response);
 
+
+    return response
+}
+
+
+export const getLatestVideos = async () => {
     
-return response
+    const response = await getRequest(
+        `${baseUrl}/videos/getLatestVideos`,
+
+    );
+
+    if (response.error) {
+        console.log('response', response);
+        throw new Error(response);
+    }
+    console.log('response', response);
+
+    return response
 }

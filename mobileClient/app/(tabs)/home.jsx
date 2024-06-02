@@ -5,13 +5,14 @@ import {images} from '../../constants'
 import SearchInput from '../../components/SearchInput'
 import Trending from '../../components/Trending'
 import EmptyState from '../../components/EmptyState'
-import { getAllVideos } from '../../services/videsServices'
+import { getAllVideos, getLatestVideos } from '../../services/videsServices'
 import useFetchVideos from '../../hooks/useFetchVideos'
 import VideoCard from '../../components/VideoCard'
 const Home = () => {
   const {data:posts,refetch} = useFetchVideos(getAllVideos)
+  const {data:latestPosts} = useFetchVideos(getLatestVideos)
   const [refreshing, setRefreshing] = useState(false)
-  console.log(posts);
+  console.log('latestPosts',latestPosts);
 
   //when a user pulls down the screen, it will call this function and fetch new videos(like on instagram)
     const onRefresh = async() => {
@@ -55,7 +56,8 @@ const Home = () => {
             <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-gray-100 text-lg font-pregular mb-3">Latest videos</Text>
               <Trending
-                  posts={[{id:1},{id:2},{id:3}] ?? []}
+                  posts={latestPosts ?? []}
+                  
               />
             </View>
           </View>

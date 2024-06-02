@@ -22,6 +22,8 @@ const Profile = () => {
     await logoutUser();
     setUser(null);
 
+    //! if you use router.push that means the user can go back 
+    //!to the last page but with router.replcw the user cannot go back
     router.replace('/sign-in')
   };
 

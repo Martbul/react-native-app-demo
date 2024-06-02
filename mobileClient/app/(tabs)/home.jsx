@@ -1,5 +1,5 @@
 import { View, Text, FlatList, Image, RefreshControl, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import {images} from '../../constants'
 import SearchInput from '../../components/SearchInput'
@@ -8,7 +8,9 @@ import EmptyState from '../../components/EmptyState'
 import { getAllVideos, getLatestVideos } from '../../services/videoServices'
 import useFetchVideos from '../../hooks/useFetchVideos'
 import VideoCard from '../../components/VideoCard'
+import { AuthContext } from '../../contexts/AuthContext'
 const Home = () => {
+  const { user, setUser } = useContext(AuthContext);
   const {data:posts,refetch} = useFetchVideos(getAllVideos)
   const {data:latestPosts} = useFetchVideos(getLatestVideos)
   const [refreshing, setRefreshing] = useState(false)
@@ -36,8 +38,8 @@ const Home = () => {
           <View className="my-6 px-4 space-y-6">
             <View className='justify-between items-start flex-row mb-6'>
               <View>
-                <Text className="font-pmedium text-sm text-gray-100">Welcome back</Text>
-                <Text className="text-2xl font-psemibold text-white">testuser</Text>
+                <Text className="font-pmedium text-sm text-gray-100">Welcome back,</Text>
+                <Text className="text-2xl font-psemibold text-white">{user?.username}</Text>
               </View>
 
               <View className="mt-1.5">

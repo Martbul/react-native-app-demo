@@ -15,8 +15,9 @@ const SignIn = () => {
   const{user,isLoading,setUser} = useContext(AuthContext);
   const submit = async () => {
     if (!form.email || !form.password) {
-      console.log("error");
+      
       Alert.alert("Error", "Please fill in all fields");
+      return
     }
 
     setIsSubmiting(true);

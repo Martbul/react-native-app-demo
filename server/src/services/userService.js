@@ -1,7 +1,5 @@
 const User = require("../models/User");
 
-
-
 const bcrypt = require("bcrypt");
 const jwt = require("../lib/jwt");
 const { jwtDecode } = require('jwt-decode')
@@ -49,7 +47,6 @@ exports.singup = async (userData) => {
 exports.login = async (email, password) => {
   
   const user = await User.findOne({email});
-
 
   if (!user) {
     return ("invalid username or password");

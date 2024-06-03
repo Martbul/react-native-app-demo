@@ -18,7 +18,7 @@ const videoSchema = new mongoose.Schema({
   },
   prompt: {
     type: String,
-    required: [true, "password is required"],
+    required: [true, "prompt is required"],
   
   },
   video:  {
@@ -29,7 +29,7 @@ const videoSchema = new mongoose.Schema({
   },
   creator: {
     type: String,
-    required: [true, "password is required"],
+    required: [true, "creator is required"],
   
   },
   filePath: String

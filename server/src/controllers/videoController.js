@@ -1,8 +1,33 @@
 const router = require("express").Router();
 const videoService = require("../services/videoService");
+const formidable = require('formidable');
+// const multer  = require('multer')
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, '/tmp/my-uploads')
+//   },
+//   filename: function (req, file, cb) {
+//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+//     cb(null, file.fieldname + '-' + uniqueSuffix)
+//   }
+// })
 
+// const upload = multer({ storage: storage })
 
+const multer = require('multer')
+const path = require('path')
 
+// Set up storage engine
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+    console.log(file);
+      cb(null, Date.now() + path.extname(file.originalname)); // Append the file extension
+  }
+});
+const upload = multer({ storage })
 
 router.get('/getAllVideos', async (req, res) => {
   try {
@@ -55,21 +80,38 @@ const userEmail = req.body.userEmail
 })
 
 
-router.post('/createVideo', async (req, res) => {
-const {title,video,thumbnail,prompt } = req.body.form
-console.log(title, video,thumbnail,prompt);
+
+
+router.post('/createVideo', upload.single('thumbnail'), async (req, res) => {
+ console.log('ere');
+
+  console.log(req.files);
+  const thumbnail = req.files.thumbnail[0];
   try {
-     const createdVideo = await videoService.createVideo(title, video,thumbnail,prompt);
-     console.log(createdVideo);
-     res.json(createdVideo)
+      const createdVideo = await videoService.createVideo(title, video.path, thumbnail.path, prompt);
+      console.log(createdVideo);
+      res.json(createdVideo);
   } catch (error) {
-    const errorMessages = extractErrorMsgs(error);
-    console.log('err  ' + errorMessages);
-    return errorMessages
+      console.log('Error: ', error);
+      res.status(500).json({ error: 'An error occurred while creating the video.' });
   }
-})
+});
 
+// router.post('/createVideo', upload.fields([{ name: 'video', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }]), async (req, res) => {
+//  console.log('ere');
 
+//   console.log(req.files);
+//   const video = req.files.video[0];
+//   const thumbnail = req.files.thumbnail[0];
+//   try {
+//       const createdVideo = await videoService.createVideo(title, video.path, thumbnail.path, prompt);
+//       console.log(createdVideo);
+//       res.json(createdVideo);
+//   } catch (error) {
+//       console.log('Error: ', error);
+//       res.status(500).json({ error: 'An error occurred while creating the video.' });
+//   }
+// });
 
 
 

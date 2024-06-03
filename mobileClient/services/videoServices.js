@@ -57,11 +57,22 @@ export const getAllUserVideos = async(userEmail) => {
 
 
 export const createVideo = async(form) => {
-    const response = await postRequest(
-        `${baseUrl}/videos/createVideo`,
+    console.log('form',form);
+    const formData= new FormData();
+    formData.append('video', form.video);
+    formData.append('thumbnail', form.thumbnail);
+    formData.append('title', form.title);
+    formData.append('prompt', form.prompt);
+    console.log(formData);
 
-        JSON.stringify({form})
-    );
+    const response = await fetch(`${baseUrl}/videos/createVideo`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    
 
     if (response.error) {
         console.log('response', response);
@@ -72,6 +83,37 @@ export const createVideo = async(form) => {
 
     return response
 }
+
+
+// export const createVideo = async (form) => {
+//     const formData = new FormData();
+//     formData.append('video', form.video);
+//     formData.append('thumbnail', form.thumbnail);
+//     formData.append('title', form.title);
+//     formData.append('prompt', form.prompt);
+
+//     try {
+//         const response = await fetch(`${baseUrl}/videos/createVideo`, {
+//             method: 'POST',
+//             body: formData,
+//             headers: {
+//                 'Content-Type': 'multipart/form-data',
+//             },
+//         });
+        
+//         if (!response.ok) {
+//             const errorResponse = await response.json();
+//             throw new Error(errorResponse.message || 'Error creating video');
+//         }
+
+//         const responseData = await response.json();
+//         console.log('New video:', responseData);
+//         return responseData;
+//     } catch (error) {
+//         console.error('Error creating video:', error);
+//         throw error;
+//     }
+// };
 
 
 

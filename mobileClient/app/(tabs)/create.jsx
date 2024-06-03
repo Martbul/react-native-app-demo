@@ -20,7 +20,7 @@ const Create = () => {
   const openPicker = async(selectType) =>{
     const result = await DocumentPicker.getDocumentAsync({
       //! cannot add images from camera
-      type: selectType === "image" ? ["image/jpg", "image/png"] : ["video/mp4", "video/gif"],
+      type: selectType === "image" ? ["image/*", "image/png"] : ["video/mp4", "video/gif"],
     });
     
 

@@ -1,9 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const multer = require('multer');
 const expressConfig = require("./config/expressConfig");
 const mongoose = require("mongoose");
-
+const path = require('path');
 const { PORT } = require("./constants");
 const routes = require("./router");
 require("dotenv").config()
@@ -14,7 +13,7 @@ const app = express();
 
 
 
-const upload = multer({ dest: 'uploads/' })
+
 // Configs
 
 expressConfig(app);
@@ -22,6 +21,8 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
+//! file path is possible problem
+//app.use('./uploads', express.static(path.join(__dirname, 'uploads')));
 
 mongoose.connect(uri,{
   useNewUrlParser:true,

@@ -4,7 +4,7 @@ const Video = require("../models/Video");
 
 exports.getAllVideos = async () => {
   try {
-    const allVideos = await Video.find({});
+    const allVideos = await Video.find({}).sort({ createdAt: -1 });
     return allVideos;
   } catch (error) {
     console.error('Failed to fetch videos:', error);
@@ -35,7 +35,9 @@ exports.searchVideos = async (videoName) => {
 exports.allUserVideos = async (userEmail) => {
 
   try {
-    const allUserVideos = await Video.find({ creator: userEmail });
+    const allUserVideos = await Video.find({ creator: userEmail }).sort({
+      createdAt: -1,
+    });
     return allUserVideos;
   } catch (err) {
     console.log('err: ' + err);

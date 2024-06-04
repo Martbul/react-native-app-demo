@@ -21,8 +21,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 app.use(bodyParser.json());
-//! file path is possible problem
-//app.use('./uploads', express.static(path.join(__dirname, 'uploads')));
+
 
 mongoose.connect(uri,{
   useNewUrlParser:true,

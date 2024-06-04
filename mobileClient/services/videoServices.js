@@ -59,37 +59,6 @@ export const getAllUserVideos = async(userEmail) => {
 
 
 
-
-
-// export const createVideo = async(form) => {
-//     console.log('form', form);
-    
-//     const formData= new FormData();
-//     formData.append('video', form.video);
-//     formData.append('thumbnail', form.thumbnail);
-//     formData.append('title', form.title);
-//     formData.append('prompt', form.prompt);
-//     console.log(formData);
-
-//     const response = await fetch(`${baseUrl}/videos/createVideo`, {
-//         method: 'POST',
-//         body: JSON.stringify(formData),
-//         headers: {
-//             'Content-Type': 'multipart/form-data',
-//         },
-//     });
-    
-
-//     if (response.error) {
-//         console.log('response', response);
-//         throw new Error(response);
-//     }
-   
-//     console.log("new video",response);
-
-//     return response
-// }
-
 export const uploadFileToCloud = async (file, type) => {
   console.log("uploading files to firebase");
   if (!file) return;
@@ -143,7 +112,6 @@ export const uploadFileToCloud = async (file, type) => {
 };
 
 export const createVideo = async (form) => {
-    
 
   try {
     const [thumbnailUrl, videoUrl] = await Promise.all([
@@ -151,9 +119,7 @@ export const createVideo = async (form) => {
       uploadFileToCloud(form.video, "video"),
     ]);
 
-    console.log("thumbnailUrl", thumbnailUrl);
-    console.log("videoUrl", videoUrl);
-
+    
    
 let body = form
     body.video = videoUrl;
@@ -183,48 +149,6 @@ let body = form
     throw new Error(error);
   }
 };
-
-
-// export const createVideo = async (form) => {
-//   try {
-//     const [thumbnailUrl, videoUrl] = await Promise.all([
-//       uploadFileToCloud(form.thumbnail, "image"),
-//       uploadFileToCloud(form.video, "video"),
-//     ]);
-
-//     console.log("thumbnailUrl", thumbnailUrl);
-//     console.log("videoUrl", videoUrl);
-
-//     const formData = new FormData();
-//     formData.append("video", videoUrl); // Use the URL instead of the file
-//     formData.append("thumbnail", thumbnailUrl); // Use the URL instead of the file
-//     formData.append("title", form.title);
-//     formData.append("prompt", form.prompt);
-//     formData.append("creator", form.creator);
-
-//     console.log(formData);
-
-//     const response = await fetch(`${baseUrl}/videos/createVideo`, {
-//       method: "POST",
-//       body: JSON.stringify(formData), // Ensure the body is formatted correctly
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//     });
-
-//     const result = await response.json();
-
-//     if (response.ok) {
-//       console.log("new video", result);
-//       return result;
-//     } else {
-//       console.error("response", result);
-//       throw new Error(result);
-//     }
-//   } catch (error) {
-//     throw new Error(error);
-//   }
-// };
 
 
 

@@ -21,6 +21,7 @@ import { router } from "expo-router";
 // [query].jsx is a dynamic route component in Next.js, which means it can receive query parameters.
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
+  
   const { data: posts, refetch } = useFetchVideos(() =>
     getAllUserVideos(user.email)
   );

@@ -1,5 +1,5 @@
-import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from "react-native";
-import React, { useState } from "react";
+import { View, Text, ScrollView, TouchableOpacity, Image, Alert, } from "react-native";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FormField from "../../components/FormField";
 import { Video, ResizeMode } from "expo-av";
@@ -8,18 +8,25 @@ import CustomButton from "../../components/CustomButton";
 import * as DocumentPicker from 'expo-document-picker';
 import {router} from 'expo-router'
 import { createVideo } from "../../services/videoServices";
+import { AuthContext } from "../../contexts/AuthContext";
+
+
 const Create = () => {
+  const { user, setUser } = useContext(AuthContext);
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState({
     title: "",
     video: null,
     thumbnail: null,
     prompt: "",
+    creator: user.email
   });
 
+
+  //TODO: Show user how on many percent his upload in
   const openPicker = async(selectType) =>{
     const result = await DocumentPicker.getDocumentAsync({
-      //! cannot add images from camera
+    
       type: selectType === "image" ? ["image/*", "image/png"] : ["video/mp4", "video/gif"],
     });
     
@@ -61,7 +68,8 @@ const Create = () => {
           video: null,
           thumbnail: null,
           prompt: "",
-        })
+          creator: user.email,
+        });
 
         setUploading(false)
       }

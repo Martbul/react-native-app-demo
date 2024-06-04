@@ -82,13 +82,21 @@ const userEmail = req.body.userEmail
 
 
 
-router.post('/createVideo', upload.single('thumbnail'), async (req, res) => {
- console.log('ere');
-
-  console.log(req.files);
-  const thumbnail = req.files.thumbnail[0];
+router.post('/createVideo', async (req, res) => {
+const {title, video,thumbnail,prompt,creator} = req.body
+console.log(req.body);
+  console.log(title);
+  console.log(video);
+  console.log(creator);
+  
   try {
-      const createdVideo = await videoService.createVideo(title, video.path, thumbnail.path, prompt);
+      const createdVideo = await videoService.createVideo(
+        title,
+        video,
+        thumbnail,
+        prompt,
+        creator
+      );
       console.log(createdVideo);
       res.json(createdVideo);
   } catch (error) {
@@ -96,6 +104,20 @@ router.post('/createVideo', upload.single('thumbnail'), async (req, res) => {
       res.status(500).json({ error: 'An error occurred while creating the video.' });
   }
 });
+// router.post('/createVideo', upload.single('thumbnail'), async (req, res) => {
+//  console.log('ere');
+
+//   console.log(req.files);
+//   const thumbnail = req.files.thumbnail[0];
+//   try {
+//       const createdVideo = await videoService.createVideo(title, video.path, thumbnail.path, prompt);
+//       console.log(createdVideo);
+//       res.json(createdVideo);
+//   } catch (error) {
+//       console.log('Error: ', error);
+//       res.status(500).json({ error: 'An error occurred while creating the video.' });
+//   }
+// });
 
 // router.post('/createVideo', upload.fields([{ name: 'video', maxCount: 1 }, { name: 'thumbnail', maxCount: 1 }]), async (req, res) => {
 //  console.log('ere');

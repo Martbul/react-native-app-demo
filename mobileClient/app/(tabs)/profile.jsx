@@ -1,5 +1,12 @@
-import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
-import React, { useContext } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  Image,
+  RefreshControl,
+} from "react-native";
+import React, { useContext, useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getAllUserVideos, searchVideos } from "../../services/videoServices";
 import useFetchVideos from "../../hooks/useFetchVideos";
@@ -14,11 +21,20 @@ import { router } from "expo-router";
 // [query].jsx is a dynamic route component in Next.js, which means it can receive query parameters.
 const Profile = () => {
   const { user, setUser } = useContext(AuthContext);
-
-  const { data: posts} = useFetchVideos(() =>
+  const { data: posts, refetch } = useFetchVideos(() =>
     getAllUserVideos(user.email)
   );
-  const logout = async() => {
+   const [refreshing, setRefreshing] = useState(false);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  };
+
+
+
+  const logout = async () => {
     await logoutUser();
     setUser(null);
 
@@ -29,7 +45,6 @@ const Profile = () => {
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      {/*FlatList is used for rendering a list of elements */}
       <FlatList
         data={posts}
         keyExtractor={(item) => item._id}
@@ -55,10 +70,10 @@ const Profile = () => {
             </View>
 
             <InfoBox
-                title={user?.username}
-                containerStyles="mt-5"
-                titleStyles="text-lg "
-              />
+              title={user?.username}
+              containerStyles="mt-5"
+              titleStyles="text-lg "
+            />
 
             <View className="mt-5 flex-row">
               <InfoBox
@@ -82,6 +97,9 @@ const Profile = () => {
             subtitle="No videos found for this search query"
           />
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       />
     </SafeAreaView>
   );

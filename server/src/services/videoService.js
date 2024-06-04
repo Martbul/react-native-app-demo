@@ -43,10 +43,16 @@ exports.allUserVideos = async (userEmail) => {
 
 };
 
-exports.createVideo = async (title, video,thumbnail,prompt) => {
+exports.createVideo = async (title, video,thumbnail,prompt,creator) => {
 
   try {
-    const createdVideo = await Video.create({ title, video,thumbnail,prompt });
+    const createdVideo = await Video.create({
+      title,
+      video,
+      thumbnail,
+      prompt,
+      creator,
+    });
     return createdVideo;
   } catch (err) {
     console.log('err: ' + err);
